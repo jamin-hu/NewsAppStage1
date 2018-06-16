@@ -106,8 +106,13 @@ public final class UrlToObjectConverter {
                 String date = news.getString("webPublicationDate");
 
                 JSONArray tags = news.getJSONArray("tags");
-                JSONObject authorInfo = tags.getJSONObject(0);
-                String author = authorInfo.getString("webTitle");
+                String author;
+                if (tags.length() != 0 && tags != null){
+                    JSONObject firstAuthor = tags.getJSONObject(0);
+                    author = firstAuthor.getString("webTitle");
+                } else {
+                    author = "Anonymous";
+                };
 
                 String newsUrl = news.getString("webUrl");
 

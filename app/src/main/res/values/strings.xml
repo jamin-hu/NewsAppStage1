@@ -5,5 +5,5 @@
         be different next time.
         Normally I would ask you to rotate the screen so the activity would restart and load the
         info again but I just learned how to use a loader instead of an asynctask alone so that
-        won't work...</string>
+        will not work...</string>
 </resources>
