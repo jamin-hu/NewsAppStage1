@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">NewsAppStage1</string>
     <string name="no_internet_connection">No internet connection</string>
-    <string name="no_news_found">No news found</string>
+    <string name="no_news_found">No news found :(, do reopen the app later though, it might
+        be different next time.
+        Normally I would ask you to rotate the screen so the activity would restart and load the
+        info again but I just learned how to use a loader instead of an asynctask alone so that
+        won't work...</string>
 </resources>

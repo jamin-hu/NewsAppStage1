@@ -104,9 +104,14 @@ public final class UrlToObjectConverter {
                 String name = news.getString("webTitle");
                 String category = news.getString("sectionName");
                 String date = news.getString("webPublicationDate");
+
+                JSONArray tags = news.getJSONArray("tags");
+                JSONObject authorInfo = tags.getJSONObject(0);
+                String author = authorInfo.getString("webTitle");
+
                 String newsUrl = news.getString("webUrl");
 
-                NewsItem newsItem = new NewsItem(name, category, date, newsUrl);
+                NewsItem newsItem = new NewsItem(name, category, date, author, newsUrl);
                 newsItems.add(newsItem);
             }
         } catch (JSONException e) {

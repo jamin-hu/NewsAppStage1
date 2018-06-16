@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<NewsItem>> {
 
-    private String urlString = "http://content.guardianapis.com/search?q=debates&api-key=test";
+    private String urlString = "https://content.guardianapis.com/search?api-key=test&format=json&show-tags=contributor";
 
     private NewsAdapter listViewAdapter;
 

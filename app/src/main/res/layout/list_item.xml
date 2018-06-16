@@ -26,4 +26,10 @@
         android:layout_height="wrap_content"
         android:gravity="end"/>
 
+    <TextView
+        android:id="@+id/author_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"/>
+
 </LinearLayout>
