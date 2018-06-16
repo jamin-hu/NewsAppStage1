@@ -74,7 +74,6 @@ public final class UrlToObjectConverter {
                 inputStream.close();
             }
         }
-
         return jsonResponse;
     }
 
