@@ -19,6 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name = ".SettingsActivity"
+            android:label = "@string/settings_title"
+            android:screenOrientation="portrait"> <!-- why is this here/what does this do -->
+            <meta-data
+                android:name = "android.support.PARENT_ACTIVITY"
+                android:value = "com.example.jaminhu.newsappstage1.MainActivity"/> <!-- what does this do -->
+        </activity>
     </application>
-
 </manifest>

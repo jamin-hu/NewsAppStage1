@@ -5,12 +5,17 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -55,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        // Get details on the currently active default data network
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
         if (networkInfo != null && networkInfo.isConnected()) {
@@ -67,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             View progressBar = findViewById(R.id.progress_bar);
             progressBar.setVisibility(View.GONE);
 
-            // Update empty state with no connection error message
             mEmptyStateTextView.setText(R.string.no_internet_connection);
         }
     }
@@ -75,7 +78,27 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<ArrayList<NewsItem>> onCreateLoader(int id, Bundle args) {
 
-        return new NewsLoader(this, urlString);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        //^now this sharedPrefs is an object that pretty much shows all the preferences and what they're
+        //currently set as?
+
+        String articlesLoaded = sharedPrefs.getString(
+                getString(R.string.settings_articles_loaded_key),
+                getString(R.string.settings_articles_loaded_default));
+
+        String orderBy = sharedPrefs.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default));
+
+        Uri baseUri = Uri.parse(urlString);
+
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+        //Ok so the baseUri.buildUpon() returns a Uri.Builder Object? yes probably
+
+        uriBuilder.appendQueryParameter("page-size", articlesLoaded);
+        uriBuilder.appendQueryParameter("order-by", orderBy);
+
+        return new NewsLoader(this, uriBuilder.toString());
     }
 
     @Override
@@ -95,5 +118,24 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<ArrayList<NewsItem>> loader) {
         listViewAdapter.clear();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+            getMenuInflater().inflate(R.menu.main, menu);
+            return true;
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            Log.d("myTag", "Options clicked");
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+        //^ok wait, what is going on here :D what does it mean to return a super thing here...
+        //especially when it looks like its returning the method itself to itself...?
     }
 }
